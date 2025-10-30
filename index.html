@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fine Motor Skills Games</title>
+    <link rel="stylesheet" href="resources/style/index.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
+</head>
+<body>
+    <div id="game-container">
+        <div id="menu-screen">
+            <h1>🎮 Fun Motor Skills Games! 🎮</h1>
+            <p class="subtitle">Choose a game to play!</p>
+            
+            <div class="menu">
+                <button class="game-btn trace" onclick="startGame('trace')">
+                    <div class="btn-icon">✏️</div>
+                    <div>Border Tracing</div>
+                </button>
+                
+                <button class="game-btn catch" onclick="startGame('catch')">
+                    <div class="btn-icon">🎯</div>
+                    <div>Object Catching</div>
+                </button>
+                
+                <button class="game-btn color" onclick="startGame('color')">
+                    <div class="btn-icon">🎨</div>
+                    <div>Color Filling</div>
+                </button>
+                
+                <button class="game-btn shapes" onclick="startGame('shapes')">
+                    <div class="btn-icon">🔷</div>
+                    <div>Shape Matching</div>
+                </button>
+                
+                <button class="game-btn basket" onclick="startGame('basket')">
+                    <div class="btn-icon">🧺</div>
+                    <div>Basket Toss</div>
+                </button>
+            </div>
+        </div>
+        
+        <div id="level-screen" style="display: none;">
+            <h2 id="game-title"></h2>
+            <p class="subtitle">Choose Your Level</p>
+            
+            <div class="level-buttons">
+                <button class="level-btn" onclick="startLevel(1)">Level 1<br><span>Easy</span></button>
+                <button class="level-btn" onclick="startLevel(2)">Level 2<br><span>Medium</span></button>
+                <button class="level-btn" onclick="startLevel(3)">Level 3<br><span>Hard</span></button>
+                <button class="level-btn" onclick="startLevel(4)">Level 4<br><span>Expert</span></button>
+            </div>
+            
+            <button class="back-btn" onclick="backToMenu()">← Back to Menu</button>
+        </div>
+        
+        <div id="instruction-screen" style="display: none;">
+            <h2>How to Play</h2>
+            <div id="instructions-content"></div>
+            <button class="start-btn" onclick="startPlaying()">Start Playing! 🎮</button>
+            <button class="back-btn" onclick="backToLevels()">← Back</button>
+        </div>
+        
+        <div id="game-screen" style="display: none;">
+            <div id="game-header">
+                <button class="small-btn" onclick="pauseGame()">⏸️ Pause</button>
+                <div id="game-info">
+                    <span id="level-display"></span>
+                    <span id="score-display">Score: 0</span>
+                </div>
+                <button class="small-btn" onclick="quitGame()">🏠 Quit</button>
+            </div>
+            <div id="p5-canvas"></div>
+        </div>
+        
+        <div id="complete-screen" style="display: none;">
+            <h2>🎉 Level Complete! 🎉</h2>
+            <div id="final-score"></div>
+            <div class="complete-buttons">
+                <button class="level-btn" onclick="nextLevel()">Next Level ➔</button>
+                <button class="level-btn" onclick="retryLevel()">↻ Retry</button>
+                <button class="back-btn" onclick="backToMenu()">← Menu</button>
+            </div>
+        </div>
+    </div>
+    
+    <script src="resources/scripts/index.js"></script>
+</body>
+</html>
