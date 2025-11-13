@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Full Page Layout</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="resources/style/index.css">
+
+  <style>
+      html, body {
+          height: 100%;
+          margin: 0;
+      }
+
+      .left-wrapper {
+          height: 100vh;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          overflow: hidden;
+      }
+
+      .left-image {
+          height: 100%;
+          width: auto;
+          max-width: 100%;
+          object-fit: contain;
+      }
+
+      /* BOX STYLE */
+      .box {
+          background: #fff;
+          border-radius: 14px;
+          border: 1px solid #eee;
+          padding: 1rem;
+          text-align: center;
+          transition: 0.2s ease;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: space-between;
+      }
+
+      .box:hover {
+          transform: translateY(-5px);
+      }
+
+      /* IMAGE inside box */
+      .box img {
+          width: 80%;
+          max-width: 120px;
+          height: auto;
+          margin-bottom: 12px;
+          user-select: none;
+      }
+
+      /* BUTTON inside box */
+      .box button {
+          background: #ffbf47;
+          border: none;
+          padding: 8px 20px;
+          font-size: 16px;
+          font-weight: 600;
+          border-radius: 12px;
+          cursor: pointer;
+          transition: 0.2s ease;
+      }
+
+      .box button:hover {
+          background: #ffaa00;
+          transform: scale(1.05);
+      }
+
+      /* GRID */
+      .right-grid {
+          display: grid;
+          grid-template-columns: repeat(2, 1fr);
+          gap: 1rem;
+      }
+
+      .full {
+          grid-column: span 2;
+      }
+
+      @media (max-width: 768px) {
+          .right-grid {
+              grid-template-columns: 1fr;
+          }
+          .full {
+              grid-column: span 1;
+          }
+      }
+  </style>
+</head>
+
+<body>
+
+<div class="container-fluid h-100">
+  <div class="row h-100">
+
+    <!-- LEFT IMAGE -->
+    <div class="col-12 col-md-6 left-wrapper">
+        <img src="mickeymousetoon.png" class="left-image" alt="Character">
+    </div>
+
+    <!-- RIGHT BOXES -->
+    <div class="col-12 col-md-6 d-flex align-items-center p-4">
+        <div class="right-grid w-100">
+
+            <!-- BOX 1 -->
+            <div class="box">
+                <img src="resources/images/trace.png" alt="Trace Icon">
+                <button class=" trace" onclick="startGame('trace')">
+                    <div class="btn-icon">✏️</div>
+                    <div>Border Tracing</div>
+                </button>
+            </div>
+
+            <!-- BOX 2 -->
+            <div class="box">
+                <img src="resources/images/color.png" alt="Color Icon">
+                <button class=" trace" onclick="startGame('trace')">
+                    <div class="btn-icon">✏️</div>
+                    <div>Border Tracing</div>
+                </button>
+            </div>
+
+            <!-- BOX 3 -->
+            <div class="box">
+                <img src="resources/images/puzzle.png" alt="Puzzle Icon">
+                <button class=" trace" onclick="startGame('trace')">
+                    <div class="btn-icon">✏️</div>
+                    <div>Border Tracing</div>
+                </button>
+            </div>
+
+            <!-- BOX 4 -->
+            <div class="box">
+                <img src="resources/images/learn.png" alt="Learn Icon">
+                <button class=" trace" onclick="startGame('trace')">
+                    <div class="btn-icon">✏️</div>
+                    <div>Border Tracing</div>
+                </button>
+            </div>
+
+            <!-- BOX 5 (FULL WIDTH) -->
+            <div class="box full">
+                <img src="resources/images/music.png" alt="Music Icon">
+                <button class=" trace" onclick="startGame('trace')">
+                    <div class="btn-icon">✏️</div>
+                    <div>Border Tracing</div>
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+  </div>
+</div>
+
+<script src="resources/scripts/index.js"></script>
+</body>
+</html>
