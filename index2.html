@@ -3,163 +3,202 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Full Page Layout</title>
-
+  <title>Full Page Layout with Particle Buttons</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="resources/style/index.css">
 
   <style>
-      html, body {
-          height: 100%;
-          margin: 0;
-      }
+    html, body {
+      height: 100%;
+      margin: 0;
+      font-family: "Comic Sans MS", "Arial Rounded MT Bold", cursive;
+      background: url("/wp2497339.jpg") no-repeat center center/cover;
+      overflow-x: hidden;
+    }
 
-      .left-wrapper {
-          height: 100vh;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          overflow: hidden;
-      }
+    .left-wrapper {
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      padding: 1rem;
+    }
+    .left-image {
+      height: 100%;
+      width: auto;
+      max-width: 100%;
+      object-fit: contain;
+      animation: float 4s ease-in-out infinite;
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-12px); }
+    }
 
-      .left-image {
-          height: 100%;
-          width: auto;
-          max-width: 100%;
-          object-fit: contain;
-      }
+    .right-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+    }
+    .full { grid-column: span 2; }
 
-      /* BOX STYLE */
-      .box {
-          background: #fff;
-          border-radius: 14px;
-          border: 1px solid #eee;
-          padding: 1rem;
-          text-align: center;
-          transition: 0.2s ease;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          justify-content: space-between;
-      }
+    .box {
+      background: #fff;
+      border-radius: 16px;
+      border: 2px solid rgba(244, 213, 255, 0.8);
+      padding: 1.2rem;
+      text-align: center;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 200px;
+    }
+    .box:hover { transform: translateY(-6px); box-shadow: 0 18px 36px rgba(0,0,0,0.12); }
+    .box img { width: 80%; max-width: 120px; height: auto; margin-bottom: 12px; }
 
-      .box:hover {
-          transform: translateY(-5px);
-      }
+    /* Buttons */
+    .game-btn {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      width: 100%;
+      max-width: 260px;
+      border: none;
+      border-radius: 14px;
+      padding: 12px 22px;
+      font-weight: 700;
+      font-size: 16px;
+      cursor: pointer;
+      transition: transform 0.22s, box-shadow 0.22s, filter 0.22s;
+      color: #333;
+      box-shadow: 0 6px 14px rgba(0,0,0,0.12);
+    }
+    .game-btn:hover { transform: translateY(-6px) scale(1.02); }
+    .btn-icon { font-size: 1.8rem; line-height: 1; margin-bottom: 4px; }
 
-      /* IMAGE inside box */
-      .box img {
-          width: 80%;
-          max-width: 120px;
-          height: auto;
-          margin-bottom: 12px;
-          user-select: none;
-      }
+    .game-btn.trace { background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%); }
+    .game-btn.color { background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%); }
+    .game-btn.puzzle { background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%); }
+    .game-btn.learn { background: linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%); }
+    .game-btn.music { background: linear-gradient(135deg, #fad0c4 0%, #ffd1ff 100%); }
 
-      /* BUTTON inside box */
-      .box button {
-          background: #ffbf47;
-          border: none;
-          padding: 8px 20px;
-          font-size: 16px;
-          font-weight: 600;
-          border-radius: 12px;
-          cursor: pointer;
-          transition: 0.2s ease;
-      }
+    /* Particle canvas overlay */
+    #particleCanvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 9999;
+    }
 
-      .box button:hover {
-          background: #ffaa00;
-          transform: scale(1.05);
-      }
-
-      /* GRID */
-      .right-grid {
-          display: grid;
-          grid-template-columns: repeat(2, 1fr);
-          gap: 1rem;
-      }
-
-      .full {
-          grid-column: span 2;
-      }
-
-      @media (max-width: 768px) {
-          .right-grid {
-              grid-template-columns: 1fr;
-          }
-          .full {
-              grid-column: span 1;
-          }
-      }
+    @media (max-width: 992px) { .right-grid { grid-template-columns: 1fr; } .full { grid-column: span 1; } }
   </style>
 </head>
 
 <body>
+  <canvas id="particleCanvas"></canvas>
 
-<div class="container-fluid h-100">
-  <div class="row h-100">
+  <div class="container-fluid h-100">
+    <div class="row h-100">
 
-    <!-- LEFT IMAGE -->
-    <div class="col-12 col-md-6 left-wrapper">
+      <!-- LEFT IMAGE -->
+      <div class="col-12 col-md-6 left-wrapper">
         <img src="mickeymousetoon.png" class="left-image" alt="Character">
-    </div>
+      </div>
 
-    <!-- RIGHT BOXES -->
-    <div class="col-12 col-md-6 d-flex align-items-center p-4">
+      <!-- RIGHT BOXES -->
+      <div class="col-12 col-md-6 d-flex align-items-center p-4">
         <div class="right-grid w-100">
-
-            <!-- BOX 1 -->
-            <div class="box">
-                <img src="resources/images/trace.png" alt="Trace Icon">
-                <button class=" trace" onclick="startGame('trace')">
-                    <div class="btn-icon">✏️</div>
-                    <div>Border Tracing</div>
-                </button>
-            </div>
-
-            <!-- BOX 2 -->
-            <div class="box">
-                <img src="resources/images/color.png" alt="Color Icon">
-                <button class=" trace" onclick="startGame('trace')">
-                    <div class="btn-icon">✏️</div>
-                    <div>Border Tracing</div>
-                </button>
-            </div>
-
-            <!-- BOX 3 -->
-            <div class="box">
-                <img src="resources/images/puzzle.png" alt="Puzzle Icon">
-                <button class=" trace" onclick="startGame('trace')">
-                    <div class="btn-icon">✏️</div>
-                    <div>Border Tracing</div>
-                </button>
-            </div>
-
-            <!-- BOX 4 -->
-            <div class="box">
-                <img src="resources/images/learn.png" alt="Learn Icon">
-                <button class=" trace" onclick="startGame('trace')">
-                    <div class="btn-icon">✏️</div>
-                    <div>Border Tracing</div>
-                </button>
-            </div>
-
-            <!-- BOX 5 (FULL WIDTH) -->
-            <div class="box full">
-                <img src="resources/images/music.png" alt="Music Icon">
-                <button class=" trace" onclick="startGame('trace')">
-                    <div class="btn-icon">✏️</div>
-                    <div>Border Tracing</div>
-                </button>
-            </div>
-
+          <div class="box">
+            <img src="resources/images/trace.png" alt="Trace Icon">
+            <button class="game-btn trace"><div class="btn-icon">✏️</div>Border Tracing</button>
+          </div>
+          <div class="box">
+            <img src="resources/images/color.png" alt="Color Icon">
+            <button class="game-btn color"><div class="btn-icon">🎨</div>Coloring</button>
+          </div>
+          <div class="box">
+            <img src="resources/images/puzzle.png" alt="Puzzle Icon">
+            <button class="game-btn puzzle"><div class="btn-icon">🧩</div>Puzzle</button>
+          </div>
+          <div class="box">
+            <img src="resources/images/learn.png" alt="Learn Icon">
+            <button class="game-btn learn"><div class="btn-icon">📚</div>Learn</button>
+          </div>
+          <div class="box full">
+            <img src="resources/images/music.png" alt="Music Icon">
+            <button class="game-btn music"><div class="btn-icon">🎵</div>Music</button>
+          </div>
         </div>
+      </div>
+
     </div>
-
   </div>
-</div>
 
-<script src="resources/scripts/index.js"></script>
+  <script>
+    const canvas = document.getElementById('particleCanvas');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    const particles = [];
+
+    function random(min, max) { return Math.random() * (max - min) + min; }
+
+    class Particle {
+      constructor(x, y, color) {
+        this.x = x;
+        this.y = y;
+        this.vx = random(-1, 1);
+        this.vy = random(-2, -0.5);
+        this.alpha = 1;
+        this.size = random(4, 8);
+        this.color = color;
+      }
+      update() { this.x += this.vx; this.y += this.vy; this.alpha -= 0.02; }
+      draw() {
+        ctx.globalAlpha = this.alpha;
+        ctx.fillStyle = this.color;
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI*2);
+        ctx.fill();
+        ctx.globalAlpha = 1;
+      }
+    }
+
+    function spawnParticles() {
+      document.querySelectorAll('.game-btn').forEach(btn => {
+        const rect = btn.getBoundingClientRect();
+        const x = rect.left + rect.width/2;
+        const y = rect.top + rect.height/2;
+        const style = getComputedStyle(btn);
+        const color = style.backgroundColor || '#fff';
+        for(let i=0; i<2; i++) { particles.push(new Particle(x, y, color)); }
+      });
+    }
+
+    function animate() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      spawnParticles();
+      for(let i=particles.length-1;i>=0;i--){
+        particles[i].update();
+        if(particles[i].alpha <= 0) particles.splice(i,1);
+        else particles[i].draw();
+      }
+      requestAnimationFrame(animate);
+    }
+
+    animate();
+    window.addEventListener('resize', ()=>{
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    });
+  </script>
 </body>
 </html>
